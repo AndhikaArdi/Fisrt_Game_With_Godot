@@ -1,20 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://kh2hc3yhpved"]
+[gd_scene load_steps=4 format=3 uid="uid://kh2hc3yhpved"]
 
 [ext_resource type="PackedScene" uid="uid://ccg8hy4r1k4oj" path="res://Scenes/player.tscn" id="1_rto2n"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w43xj"]
+[ext_resource type="PackedScene" uid="uid://fct2xasktjdd" path="res://Scenes/ground.tscn" id="2_f3fvi"]
+[ext_resource type="PackedScene" uid="uid://dc2qrhg7qvq2q" path="res://Scenes/back_ground.tscn" id="3_qwlln"]
 
 [node name="Game" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_rto2n")]
-position = Vector2(0, -1)
-
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -9)
+position = Vector2(115, 64)
 zoom = Vector2(5, 5)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(0, 22)
+[node name="Player" parent="." instance=ExtResource("1_rto2n")]
+position = Vector2(32, 96)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("WorldBoundaryShape2D_w43xj")
+[node name="Ground" parent="." instance=ExtResource("2_f3fvi")]
+position = Vector2(127, 66)
+
+[node name="BackGround" parent="." instance=ExtResource("3_qwlln")]
