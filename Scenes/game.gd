@@ -11,16 +11,14 @@ var score_i : int
 
 #movement
 var speed : float
-const STR_SPEED : float = 2.0
+const STR_SPEED : float = 1.0
 const MAS_SPEED : int = 8
 var screen_size : Vector2i
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#geting screen size
-	screen_size = get_window().size
-	print(screen_size)
-	print(screen_size*0.2)
+	screen_size = Vector2i(145,0)
 	#set start position
 	new_game()
 
