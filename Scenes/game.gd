@@ -9,12 +9,15 @@ var game_running : bool
 #score tracking
 var score_f : float
 var score_i : int
+
+#Modifier
 const SCORE_MODIFIER : int = 10
+const SPEED_MODIFIER : int = 200
 
 #movement
 var speed : float
 const STR_SPEED : float = 3.0
-const MAS_SPEED : int = 5
+const MAX_SPEED : int = 5
 var screen_size : Vector2i
 
 # Called when the node enters the scene tree for the first time.
@@ -31,6 +34,7 @@ func new_game():
 	
 	game_running = false
 	
+	#Restart Label
 	show_score()
 	$HUD.get_node("StartLabel").show()
 	
@@ -43,21 +47,28 @@ func new_game():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if game_running == true :
-		speed = STR_SPEED
+		#controlling Speed
+		speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 5.0
+		if speed > MAX_SPEED:
+			speed = MAX_SPEED
 		
 		#player movement and camera
 		$Player.position.x += speed
 		$Camera2D.position.x += speed
 		
+		#counting score
 		score_f += speed/SCORE_MODIFIER
 		score_i = int(score_f)
-		#print(score_i)
 		
 		show_score()
 		
+		#Looping Ground 
 		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 1.5):
 			$Ground.position.x += screen_size.x
+			
+	#making game idle when player didn't start
 	else:
+		#initiate game_running (Start the game)
 		if Input.is_action_pressed("ui_accept"):
 			game_running = true
 			$HUD.get_node("StartLabel").hide()
