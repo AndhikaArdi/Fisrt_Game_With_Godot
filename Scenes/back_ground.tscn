@@ -10,7 +10,11 @@
 scale = Vector2(0.6, 0.6)
 transform = Transform2D(0.6, 0, 0, 0.6, 0, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Blue_bg" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0, 1)
+motion_mirroring = Vector2(382, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Blue_bg"]
 texture = ExtResource("1_xe6v0")
 centered = false
 

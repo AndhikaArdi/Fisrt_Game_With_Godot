@@ -6,14 +6,14 @@
 
 [node name="Game" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(115, 64)
-zoom = Vector2(5, 5)
-
-[node name="Player" parent="." instance=ExtResource("1_rto2n")]
-position = Vector2(32, 96)
+[node name="BackGround" parent="." instance=ExtResource("3_qwlln")]
 
 [node name="Ground" parent="." instance=ExtResource("2_f3fvi")]
 position = Vector2(127, 66)
 
-[node name="BackGround" parent="." instance=ExtResource("3_qwlln")]
+[node name="Player" parent="." instance=ExtResource("1_rto2n")]
+position = Vector2(32, 96)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(115, 64)
+zoom = Vector2(5, 5)
