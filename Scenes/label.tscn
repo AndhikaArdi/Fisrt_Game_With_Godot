@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmxdfs501knp5"]
+
+[ext_resource type="FontFile" uid="uid://bh167s4vupc4r" path="res://Assets/fonts/PixelOperator8.ttf" id="1_a6dm4"]
+[ext_resource type="FontFile" uid="uid://cirtps61ldkbm" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="2_2hknj"]
+
+[node name="Label" type="CanvasLayer"]
+
+[node name="Score" type="Label" parent="."]
+offset_right = 150.0
+offset_bottom = 63.0
+theme_override_fonts/font = ExtResource("1_a6dm4")
+theme_override_font_sizes/font_size = 30
+text = "SCORE:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="H_Score" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -263.0
+offset_bottom = 63.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("1_a6dm4")
+theme_override_font_sizes/font_size = 30
+text = "HIGH SCORE:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start" type="Label" parent="."]
+offset_left = 176.0
+offset_top = 304.0
+offset_right = 976.0
+offset_bottom = 344.0
+theme_override_fonts/font = ExtResource("2_2hknj")
+theme_override_font_sizes/font_size = 40
+text = "PRESS ANY KEY TO START"
+horizontal_alignment = 1
+vertical_alignment = 1
