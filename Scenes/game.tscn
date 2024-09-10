@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://kh2hc3yhpved"]
+[gd_scene load_steps=3 format=3 uid="uid://kh2hc3yhpved"]
 
 [ext_resource type="PackedScene" uid="uid://ccg8hy4r1k4oj" path="res://Scenes/player.tscn" id="1_rto2n"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w43xj"]
 
 [node name="Game" type="Node2D"]
 
@@ -9,4 +11,10 @@ position = Vector2(0, -1)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -9)
-zoom = Vector2(4, 4)
+zoom = Vector2(5, 5)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 22)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_w43xj")
