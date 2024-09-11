@@ -280,9 +280,9 @@ script = ExtResource("1_segps")
 position = Vector2(0, -12)
 scale = Vector2(1.3, 1.3)
 sprite_frames = SubResource("SpriteFrames_syoao")
-animation = &"idle"
+animation = &"roll"
 autoplay = "idle"
-frame_progress = 0.909074
+frame_progress = 0.614142
 
 [node name="runCol" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)

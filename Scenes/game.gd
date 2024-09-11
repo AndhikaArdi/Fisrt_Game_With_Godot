@@ -16,7 +16,7 @@ const SPEED_MODIFIER : int = 200
 
 #movement
 var speed : float
-const STR_SPEED : float = 3.0
+const STR_SPEED : float = 1.5
 const MAX_SPEED : int = 5
 var screen_size : Vector2i
 
@@ -48,9 +48,10 @@ func new_game():
 func _process(delta: float) -> void:
 	if game_running == true :
 		#controlling Speed
-		speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 5.0
+		speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 10.0
 		if speed > MAX_SPEED:
 			speed = MAX_SPEED
+		print(speed)
 		
 		#player movement and camera
 		$Player.position.x += speed
@@ -63,13 +64,14 @@ func _process(delta: float) -> void:
 		show_score()
 		
 		#Looping Ground 
-		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 1.5):
-			$Ground.position.x += screen_size.x
+		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 2.4):
+			$Ground.position.x += screen_size.x * 2.1
+			#pass
 			
 	#making game idle when player didn't start
 	else:
 		#initiate game_running (Start the game)
-		if Input.is_action_pressed("ui_accept"):
+		if Input.is_action_pressed("jump_key") or Input.is_action_pressed("roll_key"):
 			game_running = true
 			$HUD.get_node("StartLabel").hide()
 		

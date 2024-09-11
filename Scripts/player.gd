@@ -6,7 +6,7 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		if Input.is_action_pressed("ui_down"):
+		if Input.is_action_pressed("roll_key"):
 			velocity += get_gravity() * delta
 
 	if is_on_floor():
@@ -14,9 +14,9 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.play("idle")
 		else:
 			$runCol.disabled = false
-			if Input.is_action_pressed("ui_accept"):
+			if Input.is_action_pressed("jump_key"):
 				velocity.y = JUMP_VELOCITY
-			elif Input.is_action_pressed("ui_down"):
+			elif Input.is_action_pressed("roll_key"):
 				$AnimatedSprite2D.play("roll")
 				$runCol.disabled = true
 			else:
