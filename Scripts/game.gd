@@ -112,9 +112,22 @@ func _process(delta: float) -> void:
 		
 func generate_obs():
 	if obstacle.is_empty() or last_obs.position.x < score_i * 10 + randi_range(100,180):
-		var obs_type = obstacle_type[randi() % obstacle_type.size()]
+		var obs_type 
+		if score_i > 1500 :
+			obs_type = obstacle_type2[randi() % obstacle_type2.size()]
+		else: 
+			obs_type = obstacle_type[randi() % obstacle_type.size()]
+		
+		var max_obs
+		var randif_distance
+		if obs_type == purple_slime :
+			max_obs = 1 + 1
+			randif_distance = 20
+		else:
+			max_obs = difficulty + 1
+			randif_distance = 14
+		
 		var obs
-		var max_obs = difficulty + 1
 		var numb_obs = randi() % max_obs + 1
 		var random_distance = randi_range(100,350)
 		for i in range(numb_obs):
@@ -125,7 +138,7 @@ func generate_obs():
 			if i == 0 :
 				obs_x = screen_size.x + score_i*10 + random_distance
 			else:
-				obs_x = screen_size.x + score_i*10 + random_distance + (i * 14)
+				obs_x = screen_size.x + score_i*10 + random_distance + (i * randif_distance)
 			var obs_y : int = screen_size.y - ((ground_height * ground_scale.y) + (obs_height * obs_scale.y/2))
 			last_obs = obs
 			add_obs(obs, obs_x, obs_y)
