@@ -3,6 +3,10 @@ extends Area2D
 var prior_frame:int = 0
 
 func _process(delta: float) -> void:
+	#moving the skeleton
+	position.x -= get_parent().speed / 2
+	
+	#Animation and collision
 	var sprite:AnimatedSprite2D = $AnimatedSprite2D
 
 	# make sure the collision for the current frame is not disabled

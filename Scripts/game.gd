@@ -11,7 +11,7 @@ var skeleton = preload("res://Scenes/skeleton.tscn")
 var obstacle_type := [fence, mushroom, green_slime]
 var obstacle_type2 := [fence, mushroom, green_slime, purple_slime]
 var obstacle : Array
-var skeleton_height := [200, 390]
+var skeleton_height := [30, 64]
 var ground_height : int
 var ground_scale
 var last_obs
@@ -48,11 +48,7 @@ func _ready() -> void:
 	#set start position
 	new_game()
 	
-	var p = obstacle_type[0]
-	var o = p.instantiate()
-	o.position = Vector2i(232,100)
-	#add_child(o)
-
+	
 func new_game():
 	#restart score
 	score_f = 0
@@ -103,6 +99,10 @@ func _process(delta: float) -> void:
 		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 1.5):
 			$Ground.position.x += screen_size.x * 0.69
 			
+		#removing obstacle that had been passed
+		for obs in obstacle:
+			if obs.position.x < ($Camera2D.position.x - screen_size.x):
+				remove_obs(obs)
 	#making game idle when player didn't start
 	else:
 		#initiate game_running (Start the game)
@@ -143,17 +143,24 @@ func generate_obs():
 			last_obs = obs
 			add_obs(obs, obs_x, obs_y)
 			
+		#Skeleton Spawner
+		if difficulty == MAX_DIFFICULTY:
+			if (randi()% 2) == 0:
+				pass
+				obs = skeleton.instantiate()
+				var obs_x : int = screen_size.x + score_i*10 + randi_range(100,350)
+				var obs_y : int = skeleton_height[randi() % skeleton_height.size()]
+				add_obs(obs, obs_x, obs_y)
+			
 func add_obs(obs, x, y):
 	obs.position = Vector2i(x,y)
 	add_child(obs)
 	obstacle.append(obs)
-	#print(y)
 	
-	#print(last_obs.position.x)
-	#print(score_i)
-	#print($Player.position.x)
-	#print(" ")
-		
+func remove_obs(obs):
+	obs.queue_free()
+	obstacle.erase(obs)
+	
 func show_score():
 	$HUD.get_node("ScoreLabel").text = "SCORE: " + str(score_i)
 	
