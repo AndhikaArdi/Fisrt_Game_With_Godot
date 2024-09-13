@@ -1,5 +1,20 @@
 extends Node2D
 
+#obstacle file path
+var fence = preload("res://Scenes/fence.tscn")
+var mushroom = preload("res://Scenes/mushroom.tscn")
+var green_slime = preload("res://Scenes/green_slime.tscn")
+var purple_slime = preload("res://Scenes/purple_slime.tscn")
+var skeleton = preload("res://Scenes/skeleton.tscn")
+
+#obstacle spawner
+var obstacle_type := [fence, mushroom, green_slime, purple_slime]
+var obstacle : Array
+var skeleton_height := [200, 390]
+var ground_height : int
+var ground_scale
+var last_obs
+
 #start position
 const PL_STR_POS := Vector2i(32,88)
 const CM_STR_POS := Vector2i(115,64)
@@ -13,6 +28,8 @@ var score_i : int
 #Modifier
 const SCORE_MODIFIER : int = 10
 const SPEED_MODIFIER : int = 200
+var difficulty
+const MAX_DIFFICULTY : int = 2
 
 #movement
 var speed : float
@@ -23,9 +40,16 @@ var screen_size : Vector2i
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#geting screen size
-	screen_size = Vector2i(145,0)
+	screen_size = Vector2i(232,128)
+	ground_height = $Ground.get_node("Gb_Ground").texture.get_height()
+	ground_scale = $Ground.get_node("Gb_Ground").scale
 	#set start position
 	new_game()
+	
+	var p = obstacle_type[0]
+	var o = p.instantiate()
+	o.position = Vector2i(232,100)
+	#add_child(o)
 
 func new_game():
 	#restart score
@@ -33,6 +57,7 @@ func new_game():
 	score_i = 0
 	
 	game_running = false
+	difficulty = 0
 	
 	#Restart Label
 	show_score()
@@ -51,7 +76,11 @@ func _process(delta: float) -> void:
 		speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 10.0
 		if speed > MAX_SPEED:
 			speed = MAX_SPEED
-		print(speed)
+		adjust_difficulty()
+		#print(speed)
+		
+		#obstacle spawner
+		generate_obs()
 		
 		#player movement and camera
 		$Player.position.x += speed
@@ -64,8 +93,8 @@ func _process(delta: float) -> void:
 		show_score()
 		
 		#Looping Ground 
-		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 2.4):
-			$Ground.position.x += screen_size.x * 2.1
+		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 1.5):
+			$Ground.position.x += screen_size.x * 0.69
 			#pass
 			
 	#making game idle when player didn't start
@@ -75,5 +104,35 @@ func _process(delta: float) -> void:
 			game_running = true
 			$HUD.get_node("StartLabel").hide()
 		
+func generate_obs():
+	if obstacle.is_empty() or last_obs.position.x < score_i * 10 + randi_range(100,180):
+		var obs_type = obstacle_type[randi() % obstacle_type.size()]
+		var obs
+		var max_obs = difficulty + 1
+		#for i in range(randi() % max_obs + 1):
+		obs = obs_type.instantiate()
+		var obs_height = obs.get_node("height_block").texture.get_height()
+		var obs_scale = obs.get_node("height_block").scale
+		var obs_x : int = screen_size.x + score_i*10 + randi_range(100,300)
+		var obs_y : int = screen_size.y - ((ground_height * ground_scale.y) + (obs_height * obs_scale.y/2))
+		last_obs = obs
+		add_obs(obs, obs_x, obs_y)
+			
+func add_obs(obs, x, y):
+	obs.position = Vector2i(x,y)
+	add_child(obs)
+	obstacle.append(obs)
+	#print(y)
+	
+	print(last_obs.position.x)
+	print(score_i)
+	print($Player.position.x)
+	print(" ")
+		
 func show_score():
 	$HUD.get_node("ScoreLabel").text = "SCORE: " + str(score_i)
+	
+func adjust_difficulty():
+	difficulty = score_i / SPEED_MODIFIER
+	if difficulty > MAX_DIFFICULTY:
+		difficulty = MAX_DIFFICULTY

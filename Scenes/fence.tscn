@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://osj15w100gns"]
+[gd_scene load_steps=4 format=3 uid="uid://osj15w100gns"]
 
 [ext_resource type="Texture2D" uid="uid://bega1sa31ltye" path="res://Assets/sprites/world_tileset.png" id="1_sdplw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oi62"]
 size = Vector2(17, 18)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_b05rw"]
 
 [node name="Fence" type="Area2D"]
 
@@ -12,8 +14,14 @@ position = Vector2(2.75, 4.5)
 scale = Vector2(1.36667, 1.64286)
 texture = ExtResource("1_sdplw")
 region_enabled = true
-region_rect = Rect2(144.423, 49.8373, 15.6349, 14.5182)
+region_rect = Rect2(144.423, 49.8373, 15.6349, 13.4064)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2.5, 7)
 shape = SubResource("RectangleShape2D_1oi62")
+
+[node name="height_block" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(3, -8.34465e-07)
+scale = Vector2(1.5, 32)
+texture = SubResource("CanvasTexture_b05rw")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://djghvd6cqq3fy"]
+[gd_scene load_steps=9 format=3 uid="uid://djghvd6cqq3fy"]
 
 [ext_resource type="Texture2D" uid="uid://bfqb340xhlqvl" path="res://Assets/sprites/slime_purple.png" id="1_ypll0"]
 
@@ -41,6 +41,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3tyb5"]
 size = Vector2(18, 27)
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_0b18j"]
+
 [node name="purple_slime" type="Area2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -55,3 +57,9 @@ flip_h = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 18.5)
 shape = SubResource("RectangleShape2D_3tyb5")
+
+[node name="height_block" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(8, 0.500024)
+scale = Vector2(1.5, 63.0001)
+texture = SubResource("CanvasTexture_0b18j")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dioguj0vsjdhm"]
+[gd_scene load_steps=9 format=3 uid="uid://dioguj0vsjdhm"]
 
 [ext_resource type="Texture2D" uid="uid://fdvhlx7l03fd" path="res://Assets/sprites/slime_green.png" id="1_ccirp"]
 
@@ -41,6 +41,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dhf7u"]
 size = Vector2(12, 18)
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_2gtrl"]
+
 [node name="GreenSlime" type="Area2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -56,3 +58,9 @@ flip_h = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_dhf7u")
+
+[node name="height_block" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -1)
+scale = Vector2(1.5, 34)
+texture = SubResource("CanvasTexture_2gtrl")
