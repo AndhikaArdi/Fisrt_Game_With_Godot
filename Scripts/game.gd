@@ -35,8 +35,8 @@ const MAX_DIFFICULTY : int = 3
 
 #movement
 var speed : float
-const STR_SPEED : float = 1.5
-const MAX_SPEED : int = 5
+const STR_SPEED : float = 2.5
+const MAX_SPEED : int = 6
 var screen_size : Vector2i
 
 # Called when the node enters the scene tree for the first time.
@@ -45,6 +45,10 @@ func _ready() -> void:
 	screen_size = Vector2i(232,128)
 	ground_height = $Ground.get_node("Gb_Ground").texture.get_height()
 	ground_scale = $Ground.get_node("Gb_Ground").scale
+	
+	#GameOver Restart Button
+	$GameOver.get_node("Button").pressed.connect(new_game) 
+	
 	#set start position
 	new_game()
 	
@@ -53,13 +57,17 @@ func new_game():
 	#restart score
 	score_f = 0
 	score_i = 0
+	show_score()
 	
+	#game set
 	game_running = false
+	get_tree().paused = false
 	difficulty = 0
 	
-	#Restart Label
-	show_score()
-	$HUD.get_node("StartLabel").show()
+	#deleting all obstacle and obs memory
+	for obs in obstacle:
+		obs.queue_free()
+	obstacle.clear()
 	
 	#restart position
 	$Player.position = PL_STR_POS
@@ -67,14 +75,18 @@ func new_game():
 	$Camera2D.position = CM_STR_POS
 	$Ground.position = GRD_STR_POS
 	
+	#Display
+	$HUD.get_node("StartLabel").show()
+	$GameOver.hide()
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if game_running == true :
 		#controlling Speed
-		if score_i > 1500 :
-			speed = (STR_SPEED + (1500 / SPEED_MODIFIER) / 10.0) + (score_i / SPEED_MODIFIER) / 50.0
+		if score_i > 1500 : #making the speed jump from 4.0 into 4.5 after hitting 1500 score, (0.1)
+			speed = (STR_SPEED + (1500 / SPEED_MODIFIER) / 5.0) + ((score_i - 500) / SPEED_MODIFIER) / 10.0
 		else: 
-			speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 10.0
+			speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 5.0
 		
 		if speed > MAX_SPEED:
 			speed = MAX_SPEED
@@ -113,7 +125,7 @@ func _process(delta: float) -> void:
 func generate_obs():
 	if obstacle.is_empty() or last_obs.position.x < score_i * 10 + randi_range(100,180):
 		var obs_type 
-		if score_i > 1500 :
+		if difficulty >= 2 : #score = 1000
 			obs_type = obstacle_type2[randi() % obstacle_type2.size()]
 		else: 
 			obs_type = obstacle_type[randi() % obstacle_type.size()]
@@ -144,7 +156,7 @@ func generate_obs():
 			add_obs(obs, obs_x, obs_y)
 			
 		#Skeleton Spawner
-		if difficulty == MAX_DIFFICULTY:
+		if difficulty == MAX_DIFFICULTY+500: #score = 2000
 			if (randi()% 2) == 0:
 				pass
 				obs = skeleton.instantiate()
@@ -154,12 +166,17 @@ func generate_obs():
 			
 func add_obs(obs, x, y):
 	obs.position = Vector2i(x,y)
+	obs.body_entered.connect(hit_obs)
 	add_child(obs)
 	obstacle.append(obs)
 	
 func remove_obs(obs):
 	obs.queue_free()
 	obstacle.erase(obs)
+	
+func hit_obs(body):
+	if body.name == "Player":
+		game_over()
 	
 func show_score():
 	$HUD.get_node("ScoreLabel").text = "SCORE: " + str(score_i)
@@ -168,3 +185,8 @@ func adjust_difficulty():
 	difficulty = score_i / (SPEED_MODIFIER + 300)
 	if difficulty > MAX_DIFFICULTY:
 		difficulty = MAX_DIFFICULTY
+	
+func game_over():
+	get_tree().paused = true
+	game_running = false
+	$GameOver.show()

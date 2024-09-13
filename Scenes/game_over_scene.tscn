@@ -1,0 +1,90 @@
+[gd_scene load_steps=8 format=3 uid="uid://dkkec6bif3mhm"]
+
+[ext_resource type="FontFile" uid="uid://cirtps61ldkbm" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="1_6rws0"]
+[ext_resource type="Script" path="res://Scripts/game_over_scene.gd" id="1_8ned4"]
+[ext_resource type="FontFile" uid="uid://bh167s4vupc4r" path="res://Assets/fonts/PixelOperator8.ttf" id="2_ck4e3"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_cjbwt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mc2kw"]
+bg_color = Color(0.215686, 0.611765, 0.239216, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wpiom"]
+bg_color = Color(0.155238, 0.448527, 0.171626, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqc6w"]
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_8ned4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.14902, 0.14902, 0.14902, 0.376471)
+position = Vector2(573.75, 319.75)
+scale = Vector2(1148.5, 640.5)
+texture = SubResource("CanvasTexture_cjbwt")
+
+[node name="Gameover_Label" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.503
+anchor_top = 0.5
+anchor_right = 0.503
+anchor_bottom = 0.5
+offset_left = -276.456
+offset_top = -74.0
+offset_right = -138.456
+offset_bottom = -51.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+theme_override_fonts/font = ExtResource("1_6rws0")
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Startover_Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -421.0
+offset_top = 18.0
+offset_right = 1.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("2_ck4e3")
+text = "Press ENTER to restart the game"
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -274.0
+offset_top = 8.0
+offset_right = -186.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.8, 1.8)
+theme_override_fonts/font = ExtResource("1_6rws0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mc2kw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wpiom")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hqc6w")
+text = "ENTER"
+icon_alignment = 1

@@ -4,7 +4,7 @@ var prior_frame:int = 0
 
 func _process(delta: float) -> void:
 	#moving the skeleton
-	position.x -= get_parent().speed / 2
+	position.x -= get_parent().speed / 4
 	
 	#Animation and collision
 	var sprite:AnimatedSprite2D = $AnimatedSprite2D
