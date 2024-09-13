@@ -8,7 +8,8 @@ var purple_slime = preload("res://Scenes/purple_slime.tscn")
 var skeleton = preload("res://Scenes/skeleton.tscn")
 
 #obstacle spawner
-var obstacle_type := [fence, mushroom, green_slime, purple_slime]
+var obstacle_type := [fence, mushroom, green_slime]
+var obstacle_type2 := [fence, mushroom, green_slime, purple_slime]
 var obstacle : Array
 var skeleton_height := [200, 390]
 var ground_height : int
@@ -28,8 +29,9 @@ var score_i : int
 #Modifier
 const SCORE_MODIFIER : int = 10
 const SPEED_MODIFIER : int = 200
+var SPEED_PGR_MOD : float
 var difficulty
-const MAX_DIFFICULTY : int = 2
+const MAX_DIFFICULTY : int = 3
 
 #movement
 var speed : float
@@ -73,11 +75,16 @@ func new_game():
 func _process(delta: float) -> void:
 	if game_running == true :
 		#controlling Speed
-		speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 10.0
+		if score_i > 1500 :
+			speed = (STR_SPEED + (1500 / SPEED_MODIFIER) / 10.0) + (score_i / SPEED_MODIFIER) / 50.0
+		else: 
+			speed = STR_SPEED + (score_i / SPEED_MODIFIER) / 10.0
+		
 		if speed > MAX_SPEED:
 			speed = MAX_SPEED
+		
+		#controlling difficulty
 		adjust_difficulty()
-		#print(speed)
 		
 		#obstacle spawner
 		generate_obs()
@@ -95,7 +102,6 @@ func _process(delta: float) -> void:
 		#Looping Ground 
 		if (($Camera2D.position.x - $Ground.position.x) > screen_size.x * 1.5):
 			$Ground.position.x += screen_size.x * 0.69
-			#pass
 			
 	#making game idle when player didn't start
 	else:
@@ -109,14 +115,20 @@ func generate_obs():
 		var obs_type = obstacle_type[randi() % obstacle_type.size()]
 		var obs
 		var max_obs = difficulty + 1
-		#for i in range(randi() % max_obs + 1):
-		obs = obs_type.instantiate()
-		var obs_height = obs.get_node("height_block").texture.get_height()
-		var obs_scale = obs.get_node("height_block").scale
-		var obs_x : int = screen_size.x + score_i*10 + randi_range(100,300)
-		var obs_y : int = screen_size.y - ((ground_height * ground_scale.y) + (obs_height * obs_scale.y/2))
-		last_obs = obs
-		add_obs(obs, obs_x, obs_y)
+		var numb_obs = randi() % max_obs + 1
+		var random_distance = randi_range(100,350)
+		for i in range(numb_obs):
+			obs = obs_type.instantiate()
+			var obs_height = obs.get_node("height_block").texture.get_height()
+			var obs_scale = obs.get_node("height_block").scale
+			var obs_x : int
+			if i == 0 :
+				obs_x = screen_size.x + score_i*10 + random_distance
+			else:
+				obs_x = screen_size.x + score_i*10 + random_distance + (i * 14)
+			var obs_y : int = screen_size.y - ((ground_height * ground_scale.y) + (obs_height * obs_scale.y/2))
+			last_obs = obs
+			add_obs(obs, obs_x, obs_y)
 			
 func add_obs(obs, x, y):
 	obs.position = Vector2i(x,y)
@@ -124,15 +136,15 @@ func add_obs(obs, x, y):
 	obstacle.append(obs)
 	#print(y)
 	
-	print(last_obs.position.x)
-	print(score_i)
-	print($Player.position.x)
-	print(" ")
+	#print(last_obs.position.x)
+	#print(score_i)
+	#print($Player.position.x)
+	#print(" ")
 		
 func show_score():
 	$HUD.get_node("ScoreLabel").text = "SCORE: " + str(score_i)
 	
 func adjust_difficulty():
-	difficulty = score_i / SPEED_MODIFIER
+	difficulty = score_i / (SPEED_MODIFIER + 300)
 	if difficulty > MAX_DIFFICULTY:
 		difficulty = MAX_DIFFICULTY
