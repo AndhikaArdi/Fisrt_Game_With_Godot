@@ -16,6 +16,7 @@ func _physics_process(delta: float) -> void:
 			$runCol.disabled = false
 			if Input.is_action_pressed("jump_key"):
 				velocity.y = JUMP_VELOCITY
+				$Jump_sound.play()
 			elif Input.is_action_pressed("roll_key"):
 				$AnimatedSprite2D.play("roll")
 				$runCol.disabled = true

@@ -25,6 +25,7 @@ var game_running : bool
 #score tracking
 var score_f : float
 var score_i : int
+var high_score : int
 
 #Modifier
 const SCORE_MODIFIER : int = 10
@@ -181,12 +182,19 @@ func hit_obs(body):
 func show_score():
 	$HUD.get_node("ScoreLabel").text = "SCORE: " + str(score_i)
 	
+func check_hight_score():
+	if score_i > high_score:
+		high_score = score_i
+		$HUD.get_node("H_ScoreLabel").text = "HIGH SCORE: " + str(score_i)
+	
 func adjust_difficulty():
 	difficulty = score_i / (SPEED_MODIFIER + 300)
 	if difficulty > MAX_DIFFICULTY:
 		difficulty = MAX_DIFFICULTY
 	
 func game_over():
+	$Dead.play()
+	check_hight_score()
 	get_tree().paused = true
 	game_running = false
 	$GameOver.show()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://kh2hc3yhpved"]
+[gd_scene load_steps=9 format=3 uid="uid://kh2hc3yhpved"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_jq6mm"]
 [ext_resource type="PackedScene" uid="uid://ccg8hy4r1k4oj" path="res://Scenes/player.tscn" id="1_rto2n"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dc2qrhg7qvq2q" path="res://Scenes/back_ground.tscn" id="3_qwlln"]
 [ext_resource type="PackedScene" uid="uid://fylek37m01pd" path="res://Scenes/hud.tscn" id="5_7xyjl"]
 [ext_resource type="PackedScene" uid="uid://dkkec6bif3mhm" path="res://Scenes/game_over_scene.tscn" id="6_ml1at"]
+[ext_resource type="AudioStream" uid="uid://b4egkojbyyhbv" path="res://Assets/music/time_for_adventure.mp3" id="7_wsqr2"]
+[ext_resource type="AudioStream" uid="uid://cqyk7lrhp0ssf" path="res://Assets/sounds/hurt.wav" id="8_8yn6b"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_jq6mm")
@@ -26,3 +28,13 @@ zoom = Vector2(5, 5)
 
 [node name="GameOver" parent="." instance=ExtResource("6_ml1at")]
 process_mode = 2
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_wsqr2")
+autoplay = true
+bus = &"Music"
+
+[node name="Dead" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("8_8yn6b")
+bus = &"SFX"
