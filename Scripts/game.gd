@@ -99,11 +99,11 @@ func _process(delta: float) -> void:
 		generate_obs()
 		
 		#player movement and camera
-		$Player.position.x += speed
-		$Camera2D.position.x += speed
+		$Player.position.x += speed * delta*75
+		$Camera2D.position.x += speed * delta*75
 		
 		#counting score
-		score_f += speed/SCORE_MODIFIER
+		score_f += speed/SCORE_MODIFIER * delta*75
 		score_i = int(score_f)
 		
 		show_score()
@@ -157,7 +157,7 @@ func generate_obs():
 			add_obs(obs, obs_x, obs_y)
 			
 		#Skeleton Spawner
-		if difficulty == MAX_DIFFICULTY+500: #score = 2000
+		if score_i >= 2000: #cant using difficulty
 			if (randi()% 2) == 0:
 				pass
 				obs = skeleton.instantiate()
